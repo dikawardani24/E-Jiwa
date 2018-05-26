@@ -93,6 +93,7 @@ public class FormPasienActivity extends FormPersonActivity {
             intent.putExtra("pasien", pasien);
             intent.putExtra("petugas", petugas);
             startActivity(intent);
+            finish();
         }
     }
 }
