@@ -1,7 +1,11 @@
 package com.puskesmascilandak.e_jiwa.activities;
 
+import android.database.sqlite.SQLiteException;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.puskesmascilandak.e_jiwa.R;
@@ -12,6 +16,10 @@ import com.puskesmascilandak.e_jiwa.model.DetailCheckUp;
 import com.puskesmascilandak.e_jiwa.model.Pasien;
 import com.puskesmascilandak.e_jiwa.model.Petugas;
 import com.puskesmascilandak.e_jiwa.service.AngketDbService;
+import com.puskesmascilandak.e_jiwa.service.CheckUpDbService;
+import com.puskesmascilandak.e_jiwa.service.DetailCheckUpDbService;
+import com.puskesmascilandak.e_jiwa.service.PasienDbService;
+import com.puskesmascilandak.e_jiwa.util.DialogHelper;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -26,11 +34,38 @@ public class CheckUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_up);
+        initUpNavigation();
 
-        AngketDbService angketDbService = new AngketDbService(this);
-        List<Angket> angkets = angketDbService.getAll();
-        detailCheckUps = new ArrayList<>();
+        initCheckUp();
+        initDetailCheckUp();
 
+        ListView listView = findViewById(R.id.questions_listview);
+        listView.setAdapter(buildAdapter());
+
+        Button saveCheckUpBtn = findViewById(R.id.save_check_up_btn);
+        saveCheckUpBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                simpan();
+            }
+        });
+    }
+
+    private void initUpNavigation() {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    private AngketItemAdapter buildAdapter() {
+        AngketItemAdapter adapter = new AngketItemAdapter(this);
+        adapter.addAll(detailCheckUps);
+        adapter.notifyDataSetChanged();
+        return adapter;
+    }
+
+    private void initCheckUp() {
         checkUp = new CheckUp();
         Serializable pasienSerialized = getIntent().getSerializableExtra("pasien");
         if (pasienSerialized != null) {
@@ -42,10 +77,19 @@ public class CheckUpActivity extends AppCompatActivity {
         if (petugasSerialized != null) {
             Petugas petugas = (Petugas) petugasSerialized;
             checkUp.setPetugas(petugas);
+        } else {
+            DialogHelper.showDialog(this, "Gagal", "Data Petugas Tidak Terkirim");
+            return;
         }
 
         checkUp.setTglCheckUp(getDateInString());
 
+    }
+
+    private void initDetailCheckUp() {
+        AngketDbService angketDbService = new AngketDbService(this);
+        List<Angket> angkets = angketDbService.getAll();
+        detailCheckUps = new ArrayList<>();
 
         for (Angket angket : angkets) {
             DetailCheckUp detailCheckUp = new DetailCheckUp();
@@ -54,13 +98,6 @@ public class CheckUpActivity extends AppCompatActivity {
             detailCheckUp.setAngket(angket);
             detailCheckUps.add(detailCheckUp);
         }
-
-        AngketItemAdapter adapter = new AngketItemAdapter(this);
-        adapter.addAll(detailCheckUps);
-        adapter.notifyDataSetChanged();
-
-        ListView listView = findViewById(R.id.questions_listview);
-        listView.setAdapter(adapter);
     }
 
     private String getDateInString() {
@@ -74,7 +111,44 @@ public class CheckUpActivity extends AppCompatActivity {
     }
 
     private void simpan() {
+        boolean dataCheckUpSaved = simpanDataCheckUp(checkUp);
+        boolean allDetailSaved = false;
 
+        if (dataCheckUpSaved) {
+            DetailCheckUpDbService service = new DetailCheckUpDbService(this);
 
+            for (DetailCheckUp detailCheckUp : detailCheckUps) {
+                try {
+                    service.simpan(detailCheckUp);
+                    allDetailSaved = true;
+                } catch (SQLiteException e) {
+                    e.printStackTrace();
+                    break;
+                }
+            }
+        }
+
+        if (allDetailSaved) {
+            finish();
+        }
+    }
+
+    private int countScore() {
+        return 20;
+    }
+
+    private boolean simpanDataCheckUp(CheckUp checkUp) {
+        checkUp.setScore(countScore());
+        CheckUpDbService service = new CheckUpDbService(this);
+
+        try {
+            service.simpan(checkUp);
+            return true;
+        } catch (SQLiteException e) {
+            e.printStackTrace();
+
+            new PasienDbService(this).delete(checkUp.getPasien());
+            return false;
+        }
     }
 }

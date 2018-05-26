@@ -11,7 +11,7 @@ import com.puskesmascilandak.e_jiwa.model.Petugas;
 public class CheckUpDbService extends DatabaseServiceImpl<CheckUp> {
 
     public CheckUpDbService(Context context) {
-        super(context, "checkup");
+        super(context, "check_up");
     }
 
     @Override

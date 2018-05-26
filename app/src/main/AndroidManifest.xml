@@ -29,8 +29,18 @@
         </activity>
 
         <activity android:name=".activities.FormUserActivity" />
-        <activity android:name=".activities.FormPasienActivity" />
-        <activity android:name=".activities.CheckUpActivity" />
+
+        <activity android:name=".activities.FormPasienActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MainActivity" />
+        </activity>
+
+        <activity android:name=".activities.CheckUpActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
