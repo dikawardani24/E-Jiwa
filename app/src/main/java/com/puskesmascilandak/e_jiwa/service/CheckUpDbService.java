@@ -40,7 +40,7 @@ public class CheckUpDbService extends DatabaseServiceImpl<CheckUp> {
         Petugas petugas = new PetugasDbService(context).findBy(idPetugas);
         checkUp.setPetugas(petugas);
 
-        int idPasien = getIntFrom(cursor, "idPasien");
+        int idPasien = getIntFrom(cursor, "idpasien");
         Pasien pasien = new PasienDbService(context).findBy(idPasien);
         checkUp.setPasien(pasien);
 

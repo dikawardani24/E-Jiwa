@@ -95,7 +95,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startHistoryCheckUpActivity() {
-
+        Intent intent = new Intent(this, HistoryCheckUpActivity.class);
+        startActivity(intent);
     }
 
     private void startLoginActivity() {
