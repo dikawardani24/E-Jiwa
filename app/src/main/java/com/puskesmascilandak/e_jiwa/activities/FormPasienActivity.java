@@ -25,6 +25,7 @@ public class FormPasienActivity extends FormPersonActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setTitle("Input Data Pasien");
         initUpNavigation();
 
         Button startBtn = findViewById(R.id.start_btn);
