@@ -91,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void startRegisterPasienActivity() {
         Intent intent = new Intent(this, FormPasienActivity.class);
-
         startActivity(intent);
     }
 

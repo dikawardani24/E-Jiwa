@@ -6,7 +6,7 @@ import android.database.Cursor;
 
 import com.puskesmascilandak.e_jiwa.model.Pasien;
 
-public class PasienDbService extends DatabaseServiceImpl<Pasien> {
+public class PasienDbService extends PersonDbService<Pasien> {
 
     public PasienDbService(Context context) {
         super(context, "pasien");

@@ -11,6 +11,7 @@ import android.widget.RadioButton;
 
 import com.puskesmascilandak.e_jiwa.R;
 import com.puskesmascilandak.e_jiwa.model.Person;
+import com.puskesmascilandak.e_jiwa.util.DialogHelper;
 
 import java.util.Calendar;
 
@@ -160,6 +161,10 @@ public abstract class FormPersonActivity extends AppCompatActivity
                 calendar.get(Calendar.DAY_OF_MONTH));
 
         dialog.show();
+    }
+
+    protected void showDialog(String title, String message) {
+        DialogHelper.showDialog(this, title, message);
     }
 
     @Override

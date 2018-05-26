@@ -21,7 +21,13 @@
         <activity
             android:name=".activities.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activities.FormPetugasActivity" />
+
+        <activity android:name=".activities.FormPetugasActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.LoginActivity" />
+        </activity>
+
         <activity android:name=".activities.FormUserActivity" />
         <activity android:name=".activities.FormPasienActivity" />
         <activity android:name=".activities.CheckUpActivity" />

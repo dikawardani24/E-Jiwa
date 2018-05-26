@@ -17,6 +17,7 @@ import com.puskesmascilandak.e_jiwa.model.Angket;
 import com.puskesmascilandak.e_jiwa.model.User;
 import com.puskesmascilandak.e_jiwa.service.AngketDbService;
 import com.puskesmascilandak.e_jiwa.service.UserDbService;
+import com.puskesmascilandak.e_jiwa.util.DialogHelper;
 
 import java.util.List;
 
@@ -62,11 +63,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void showDialog(String title, String message) {
-        new AlertDialog.Builder(this)
-                .setTitle(title)
-                .setMessage(message)
-                .setIcon(getResources().getDrawable(R.mipmap.ic_launcher))
-                .show();
+        DialogHelper.showDialog(this, title, message);
     }
 
     private void login() {

@@ -3,6 +3,7 @@ package com.puskesmascilandak.e_jiwa.activities;
 import android.content.Intent;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -24,6 +25,8 @@ public class FormPasienActivity extends FormPersonActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        initUpNavigation();
+
         Button startBtn = findViewById(R.id.start_btn);
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -31,6 +34,35 @@ public class FormPasienActivity extends FormPersonActivity {
                 start();
             }
         });
+    }
+
+    private void initUpNavigation() {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    @Override
+    protected boolean validateNoKtp() {
+        if (!super.validateNoKtp()) return false;
+
+        try {
+            String noKtp = getValueFrom(inputNoKtp);
+            PasienDbService service = new PasienDbService(this);
+            Pasien pasien = service.findBy(noKtp);
+
+            if (pasien != null) {
+                showDialog("Gagal", "Sudah Ada Data Pasien Dengan No. KTP : "+noKtp);
+                return false;
+            }
+
+            return true;
+        } catch (SQLiteException e) {
+            e.printStackTrace();
+            showDialog("Gagal", "Tidak Dapat Mengakses Database");
+            return false;
+        }
     }
 
     private void start() {

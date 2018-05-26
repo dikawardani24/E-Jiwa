@@ -6,7 +6,7 @@ import android.database.Cursor;
 
 import com.puskesmascilandak.e_jiwa.model.Petugas;
 
-public class PetugasDbService extends DatabaseServiceImpl<Petugas> {
+public class PetugasDbService extends PersonDbService<Petugas> {
 
     public PetugasDbService(Context context) {
         super(context, "petugas");

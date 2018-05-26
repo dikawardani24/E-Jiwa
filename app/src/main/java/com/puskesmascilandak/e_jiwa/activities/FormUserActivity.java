@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.puskesmascilandak.e_jiwa.R;
 import com.puskesmascilandak.e_jiwa.model.Petugas;
 import com.puskesmascilandak.e_jiwa.model.User;
+import com.puskesmascilandak.e_jiwa.service.PetugasDbService;
 import com.puskesmascilandak.e_jiwa.service.UserDbService;
 
 public class FormUserActivity extends AppCompatActivity {
@@ -55,9 +56,7 @@ public class FormUserActivity extends AppCompatActivity {
         }
 
         User user = new User();
-        user.setPetugas(petugas);
-        user.setUsername(getValueFrom(inputUsername));
-        user.setPassword(getValueFrom(inputPassword));
+        initData(user);
 
         UserDbService service = new UserDbService(this);
         try {
@@ -65,9 +64,25 @@ public class FormUserActivity extends AppCompatActivity {
             startLoginActivity();
             finish();
         } catch (SQLiteException e) {
+            deletePetugas();
             e.printStackTrace();
             showToast("Tidak Dapat Menympan Data User");
         }
+    }
+
+    private void deletePetugas() {
+        PetugasDbService service = new PetugasDbService(this);
+        try {
+            service.delete(petugas);
+        } catch (SQLiteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void initData(User user) {
+        user.setPetugas(petugas);
+        user.setUsername(getValueFrom(inputUsername));
+        user.setPassword(getValueFrom(inputPassword));
     }
 
     private void startLoginActivity() {
