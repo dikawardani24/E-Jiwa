@@ -8,9 +8,30 @@ import com.puskesmascilandak.e_jiwa.model.Angket;
 import com.puskesmascilandak.e_jiwa.model.CheckUp;
 import com.puskesmascilandak.e_jiwa.model.DetailCheckUp;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DetailCheckUpDbService extends DatabaseServiceImpl<DetailCheckUp> {
     public DetailCheckUpDbService(Context context) {
         super(context, "detail_check_up");
+    }
+
+    public List<DetailCheckUp> findBy(CheckUp checkUp) {
+        openReadAble();
+
+        List<DetailCheckUp> detailCheckUps = new ArrayList<>();
+        String sql = "SELECT * FROM " + tableName + " WHERE idcheck_up=?";
+        Cursor cursor = database.rawQuery(sql, new String[]{Long.toString(checkUp.getId())});
+
+        while (cursor.moveToNext()) {
+            DetailCheckUp detailCheckUp = fetchRow(cursor);
+            detailCheckUps.add(detailCheckUp);
+        }
+
+        cursor.close();
+        close();
+
+        return detailCheckUps;
     }
 
     @Override

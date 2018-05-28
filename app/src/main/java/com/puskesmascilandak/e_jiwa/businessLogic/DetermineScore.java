@@ -24,8 +24,10 @@ public class DetermineScore {
         for (int forbid : forbiddenYesAnswered) {
             DetailCheckUp detailCheckUp = detailCheckUps.get(forbid - 1);
 
-            if (detailCheckUp.getAnswer().equals("Ya")) {
-                return true;
+            if (detailCheckUp != null) {
+                if (detailCheckUp.getAnswer().equals("Ya")) {
+                    return true;
+                }
             }
         }
 
@@ -50,7 +52,7 @@ public class DetermineScore {
         return context.getResources().getColor(R.color.green);
     }
 
-    private int countTotalYesAnswer(List<DetailCheckUp> detailCheckUps) {
+    public int countTotalYesAnswer(List<DetailCheckUp> detailCheckUps) {
         int total = 0;
 
         for (DetailCheckUp detailCheckUp: detailCheckUps) {

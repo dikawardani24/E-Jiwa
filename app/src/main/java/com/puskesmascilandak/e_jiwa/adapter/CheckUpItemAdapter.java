@@ -10,10 +10,12 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.puskesmascilandak.e_jiwa.R;
+import com.puskesmascilandak.e_jiwa.businessLogic.DetermineScore;
 import com.puskesmascilandak.e_jiwa.model.CheckUp;
+import com.puskesmascilandak.e_jiwa.model.DetailCheckUp;
 import com.puskesmascilandak.e_jiwa.model.Pasien;
+import com.puskesmascilandak.e_jiwa.service.DetailCheckUpDbService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CheckUpItemAdapter extends ArrayAdapter<CheckUp> {
@@ -36,6 +38,10 @@ public class CheckUpItemAdapter extends ArrayAdapter<CheckUp> {
         TextView tglCheckUpTxt = view.findViewById(R.id.tgl_check_up_txt);
 
         CheckUp checkUp = getItem(position);
+        DetailCheckUpDbService service = new DetailCheckUpDbService(getContext());
+        List<DetailCheckUp> detailCheckUps = service.findBy(checkUp);
+        DetermineScore determineScore = new DetermineScore(getContext());
+        scoreTxt.setBackgroundColor(determineScore.getColor(detailCheckUps));
 
         if (checkUp != null) {
             Pasien pasien = checkUp.getPasien();

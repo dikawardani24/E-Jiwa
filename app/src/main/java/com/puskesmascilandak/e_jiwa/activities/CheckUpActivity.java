@@ -10,6 +10,7 @@ import android.widget.ListView;
 
 import com.puskesmascilandak.e_jiwa.R;
 import com.puskesmascilandak.e_jiwa.adapter.AngketItemAdapter;
+import com.puskesmascilandak.e_jiwa.businessLogic.DetermineScore;
 import com.puskesmascilandak.e_jiwa.model.Angket;
 import com.puskesmascilandak.e_jiwa.model.CheckUp;
 import com.puskesmascilandak.e_jiwa.model.DetailCheckUp;
@@ -96,6 +97,7 @@ public class CheckUpActivity extends AppCompatActivity {
 
             detailCheckUp.setCheckUp(checkUp);
             detailCheckUp.setAngket(angket);
+            detailCheckUp.setAnswer("Tidak");
             detailCheckUps.add(detailCheckUp);
         }
     }
@@ -134,7 +136,8 @@ public class CheckUpActivity extends AppCompatActivity {
     }
 
     private int countScore() {
-        return 20;
+        DetermineScore determineScore = new DetermineScore(this);
+        return determineScore.countTotalYesAnswer(detailCheckUps);
     }
 
     private boolean simpanDataCheckUp(CheckUp checkUp) {
