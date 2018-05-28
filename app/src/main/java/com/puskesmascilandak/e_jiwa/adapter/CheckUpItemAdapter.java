@@ -13,6 +13,9 @@ import com.puskesmascilandak.e_jiwa.R;
 import com.puskesmascilandak.e_jiwa.model.CheckUp;
 import com.puskesmascilandak.e_jiwa.model.Pasien;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CheckUpItemAdapter extends ArrayAdapter<CheckUp> {
     public CheckUpItemAdapter(@NonNull Context context) {
         super(context, R.layout.check_up_item);
@@ -33,6 +36,7 @@ public class CheckUpItemAdapter extends ArrayAdapter<CheckUp> {
         TextView tglCheckUpTxt = view.findViewById(R.id.tgl_check_up_txt);
 
         CheckUp checkUp = getItem(position);
+
         if (checkUp != null) {
             Pasien pasien = checkUp.getPasien();
             namaTxt.setText(pasien.getNama());

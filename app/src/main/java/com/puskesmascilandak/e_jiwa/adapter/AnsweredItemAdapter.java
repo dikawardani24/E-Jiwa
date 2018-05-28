@@ -2,7 +2,6 @@ package com.puskesmascilandak.e_jiwa.adapter;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -43,7 +42,7 @@ public class AnsweredItemAdapter extends ArrayAdapter<DetailCheckUp> {
             answeredTextView.setText(answer);
             int color;
             Resources resources = getContext().getResources();
-            if (answer.equals("Ya")) color = resources.getColor(R.color.blue);
+            if (answer.equals("Ya")) color = resources.getColor(R.color.green);
             else color = resources.getColor(R.color.red);
             answeredTextView.setBackgroundColor(color);
         }

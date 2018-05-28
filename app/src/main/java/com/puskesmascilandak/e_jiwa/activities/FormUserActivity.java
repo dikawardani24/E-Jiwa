@@ -66,7 +66,7 @@ public class FormUserActivity extends AppCompatActivity {
         } catch (SQLiteException e) {
             deletePetugas();
             e.printStackTrace();
-            showToast("Tidak Dapat Menympan Data User");
+            showToast("Tidak Dapat Menyimpan Data User");
         }
     }
 
@@ -107,6 +107,7 @@ public class FormUserActivity extends AppCompatActivity {
         User user = service.findBy(username);
         if (user != null) {
             inputUsername.setError("Username Sudah Ada Yang Menggunakan");
+            inputUsername.requestFocus();
             return false;
         }
 
