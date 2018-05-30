@@ -1,25 +1,22 @@
 package com.puskesmascilandak.e_jiwa.activities;
 
-import android.database.sqlite.SQLiteException;
-import android.support.v7.app.ActionBar;
+import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
+import android.widget.CompoundButton;
+import android.widget.RadioButton;
+import android.widget.TextView;
 
 import com.puskesmascilandak.e_jiwa.R;
-import com.puskesmascilandak.e_jiwa.adapter.AngketItemAdapter;
-import com.puskesmascilandak.e_jiwa.businessLogic.DetermineScore;
 import com.puskesmascilandak.e_jiwa.model.Angket;
 import com.puskesmascilandak.e_jiwa.model.CheckUp;
 import com.puskesmascilandak.e_jiwa.model.DetailCheckUp;
 import com.puskesmascilandak.e_jiwa.model.Pasien;
 import com.puskesmascilandak.e_jiwa.model.Petugas;
 import com.puskesmascilandak.e_jiwa.service.AngketDbService;
-import com.puskesmascilandak.e_jiwa.service.CheckUpDbService;
-import com.puskesmascilandak.e_jiwa.service.DetailCheckUpDbService;
-import com.puskesmascilandak.e_jiwa.service.PasienDbService;
 import com.puskesmascilandak.e_jiwa.util.DialogHelper;
 
 import java.io.Serializable;
@@ -28,42 +25,134 @@ import java.util.Calendar;
 import java.util.List;
 
 public class CheckUpActivity extends AppCompatActivity {
+    private static int lastAnswer = 0;
+    private static List<DetailCheckUp> detailCheckUps;
     private CheckUp checkUp;
-    private List<DetailCheckUp> detailCheckUps;
+    private TextView numberQuestionTextView, questionTextView;
+    private RadioButton yesRb, noRb;
+    private Button prevBtn, nextBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_up);
-        initUpNavigation();
 
         initCheckUp();
-        initDetailCheckUp();
+        detailCheckUps = new ArrayList<>();
+        AngketDbService service = new AngketDbService(this);
+        List<Angket> angkets = service.getAll();
 
-        ListView listView = findViewById(R.id.questions_listview);
-        listView.setAdapter(buildAdapter());
+        for (Angket angket : angkets) {
+            DetailCheckUp detailCheckUp = new DetailCheckUp();
+            detailCheckUp.setCheckUp(checkUp);
+            detailCheckUp.setAngket(angket);
+            detailCheckUp.setAnswer("Tidak");
+            detailCheckUps.add(detailCheckUp);
+        }
 
-        Button saveCheckUpBtn = findViewById(R.id.save_check_up_btn);
-        saveCheckUpBtn.setOnClickListener(new View.OnClickListener() {
+        numberQuestionTextView = findViewById(R.id.number_textview);
+        questionTextView = findViewById(R.id.question_textview);
+
+        prevBtn = findViewById(R.id.prev_question_btn);
+        nextBtn = findViewById(R.id.next_question_btn);
+
+        prevBtn.setVisibility(View.GONE);
+        prevBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                simpan();
+                if (lastAnswer > 0) {
+                    lastAnswer -= 1;
+
+                    if (nextBtn.getVisibility() == View.GONE) {
+                        nextBtn.setVisibility(View.VISIBLE);
+                    }
+                }
+
+                if (lastAnswer == 0) {
+                    prevBtn.setVisibility(View.GONE);
+                }
+
+                viewQuestion();
             }
         });
+
+        nextBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int max = detailCheckUps.size() - 1;
+                if (lastAnswer < max) {
+                    lastAnswer += 1;
+
+                    if (prevBtn.getVisibility() == View.GONE) {
+                        prevBtn.setVisibility(View.VISIBLE);
+                    }
+                }
+
+                if (lastAnswer == max) {
+                    nextBtn.setVisibility(View.GONE);
+                }
+
+                viewQuestion();
+            }
+        });
+
+        yesRb = findViewById(R.id.yes_rb);
+        yesRb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    DetailCheckUp detailCheckUp = detailCheckUps.get(lastAnswer);
+                    detailCheckUp.setAnswer("Ya");
+                }
+            }
+        });
+
+        noRb = findViewById(R.id.no_rb);
+        noRb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    DetailCheckUp detailCheckUp = detailCheckUps.get(lastAnswer);
+                    detailCheckUp.setAnswer("Tidak");
+                }
+            }
+        });
+
+        viewQuestion();
     }
 
-    private void initUpNavigation() {
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        if (lastAnswer == 0) {
+            prevBtn.setVisibility(View.GONE);
+        }
+
+        if (lastAnswer > 0) {
+            nextBtn.setVisibility(View.VISIBLE);
+            prevBtn.setVisibility(View.VISIBLE);
+        }
+
+        if (lastAnswer == detailCheckUps.size() -1) {
+            nextBtn.setVisibility(View.GONE);
         }
     }
 
-    private AngketItemAdapter buildAdapter() {
-        AngketItemAdapter adapter = new AngketItemAdapter(this);
-        adapter.addAll(detailCheckUps);
-        adapter.notifyDataSetChanged();
-        return adapter;
+    private void viewQuestion() {
+        DetailCheckUp detailCheckUp = detailCheckUps.get(lastAnswer);
+        if (detailCheckUp != null) {
+            Angket angket = detailCheckUp.getAngket();
+            numberQuestionTextView.setText(String.valueOf(angket.getId()));
+            questionTextView.setText(angket.getQuestion());
+
+            switch (detailCheckUp.getAnswer()) {
+                case "Tidak" : noRb.setChecked(true);break;
+                case "Ya" : yesRb.setChecked(true);break;
+            }
+        }
+
+        Log.e("LAST PAGE", String.valueOf(lastAnswer));
     }
 
     private void initCheckUp() {
@@ -87,21 +176,6 @@ public class CheckUpActivity extends AppCompatActivity {
 
     }
 
-    private void initDetailCheckUp() {
-        AngketDbService angketDbService = new AngketDbService(this);
-        List<Angket> angkets = angketDbService.getAll();
-        detailCheckUps = new ArrayList<>();
-
-        for (Angket angket : angkets) {
-            DetailCheckUp detailCheckUp = new DetailCheckUp();
-
-            detailCheckUp.setCheckUp(checkUp);
-            detailCheckUp.setAngket(angket);
-            detailCheckUp.setAnswer("Tidak");
-            detailCheckUps.add(detailCheckUp);
-        }
-    }
-
     private String getDateInString() {
         Calendar calendar = Calendar.getInstance();
 
@@ -110,48 +184,5 @@ public class CheckUpActivity extends AppCompatActivity {
         int year = calendar.get(Calendar.YEAR);
 
         return day + "/" + (month + 1) + "/" + year;
-    }
-
-    private void simpan() {
-        boolean dataCheckUpSaved = simpanDataCheckUp(checkUp);
-        boolean allDetailSaved = false;
-
-        if (dataCheckUpSaved) {
-            DetailCheckUpDbService service = new DetailCheckUpDbService(this);
-
-            for (DetailCheckUp detailCheckUp : detailCheckUps) {
-                try {
-                    service.simpan(detailCheckUp);
-                    allDetailSaved = true;
-                } catch (SQLiteException e) {
-                    e.printStackTrace();
-                    break;
-                }
-            }
-        }
-
-        if (allDetailSaved) {
-            finish();
-        }
-    }
-
-    private int countScore() {
-        DetermineScore determineScore = new DetermineScore(this);
-        return determineScore.countTotalYesAnswer(detailCheckUps);
-    }
-
-    private boolean simpanDataCheckUp(CheckUp checkUp) {
-        checkUp.setScore(countScore());
-        CheckUpDbService service = new CheckUpDbService(this);
-
-        try {
-            service.simpan(checkUp);
-            return true;
-        } catch (SQLiteException e) {
-            e.printStackTrace();
-
-            new PasienDbService(this).delete(checkUp.getPasien());
-            return false;
-        }
     }
 }

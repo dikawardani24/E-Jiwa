@@ -32,17 +32,19 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity" />
         </activity>
-        <activity android:name=".activities.CheckUpActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity" />
-        </activity>
         <activity android:name=".activities.HistoryCheckUpActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity" />
         </activity>
-        <activity android:name=".activities.DetailAnsweredActivity"></activity>
+        <activity android:name=".activities.DetailAnsweredActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.HistoryCheckUpActivity" />
+        </activity>
+
+        <activity android:name=".activities.CheckUpActivity"
+            android:configChanges="orientation"/>
     </application>
 
 </manifest>

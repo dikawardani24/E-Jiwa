@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="no_1">Apakah Anda sering menderita sakit kepala?</string>
+    <string name="no_2">Apakah Anda kehilangan nafsu makan?</string>
+    <string name="no_3">Apakah tidur Anda tidak lelap?</string>
+    <string name="no_4">Apakah Anda mudah menjadi takut?</string>
+    <string name="no_5">Apakah Anda merasa cemas. tegang dan khawatir?</string>
+    <string name="no_6">Apakah tangan Anda gemetar?</string>
+    <string name="no_7">Apakah Anda mengalami gangguan pencernaan?</string>
+    <string name="no_8">Apakah Anda merasa sulit berpikir jernih?</string>
+    <string name="no_9">Apakah Anda merasa tidak bahagia?</string>
+    <string name="no_10">Apakah Anda Iebih sering menangis?</string>
+    <string name="no_11">Apakah Anda merasa sulit untuk menikmati aktivitas sehari-hari?</string>
+    <string name="no_12">Apakah Anda mengalami kesulitan untuk mengambil keputusan?</string>
+    <string name="no_13">Apakah aktivitas/tugas sehari-hari Anda terbengkalai?</string>
+    <string name="no_14">Apakah Anda merasa tidak mampu berperan dalam kehidupan ini?</string>
+    <string name="no_15">Apakah Anda kehilangan minat terhadap banyak hal?</string>
+    <string name="no_16">Apakah Anda merasa tidak berharga?</string>
+    <string name="no_17">Apakah Anda mempunyai pikiran untuk mengakhiri hidup Anda?</string>
+    <string name="no_18">Apakah Anda merasa lelah sepanjang waktu?</string>
+    <string name="no_19">Apakah Anda merasa tidak enak di perut?</string>
+    <string name="no_20">Apakah Anda mudah Lelah?</string>
+
+    <string name="no_21">Apakah Anda minum alkohol lebih banyak dari biasanya atau Apakah Anda menggunakan narkoba?</string>
+
+    <string name="no_22">Apakah Anda yakin bahwa seseorang mencoba rnencelakai Anda dengan cara tertentu?</string>
+    <string name="no_23">Apakah ada yang mengganggu atau hal yang tidak biasa dalam pikiran Anda?</string>
+    <string name="no_24">Apakah Anda pernah mendengar suara tanpa tahu sumbernya atau yang orang lain tidak dapat mendengar?</string>
+
+    <string name="no_25">Apakah Anda mengalami mimpi yang mengganggu tentang suatu bencana/musibah atau adakah saat-saat Anda seolah mengalami kembali kejadian bencana itu?</string>
+    <string name="no_26">Apakah Anda menghindari kegiatan, tempat, orang atau pikiran yang mengingatkan Anda akan bencana tersebut?</string>
+    <string name="no_27">Apakah minat Anda terhadap teman dan kegiatan yang biasa Anda lakukan berkurang?</string>
+    <string name="no_28">Apakah Anda merasa sangat terganggu jika berada dalam situasi yang mengingatkan Anda akan bencana atau jika Anda berpikir tentang bencana itu?</string>
+    <string name="no_29">Apakah Anda kesulitan memahami atau mengekspresikan perasaan Anda?</string>
+</resources>
