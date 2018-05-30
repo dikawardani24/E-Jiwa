@@ -1,8 +1,10 @@
 package com.puskesmascilandak.e_jiwa.activities;
 
 import android.content.res.Configuration;
+import android.database.sqlite.SQLiteException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +19,8 @@ import com.puskesmascilandak.e_jiwa.model.DetailCheckUp;
 import com.puskesmascilandak.e_jiwa.model.Pasien;
 import com.puskesmascilandak.e_jiwa.model.Petugas;
 import com.puskesmascilandak.e_jiwa.service.AngketDbService;
+import com.puskesmascilandak.e_jiwa.service.CheckUpDbService;
+import com.puskesmascilandak.e_jiwa.service.DetailCheckUpDbService;
 import com.puskesmascilandak.e_jiwa.util.DialogHelper;
 
 import java.io.Serializable;
@@ -31,6 +35,7 @@ public class CheckUpActivity extends AppCompatActivity {
     private TextView numberQuestionTextView, questionTextView;
     private RadioButton yesRb, noRb;
     private Button prevBtn, nextBtn;
+    private CardView containerDetail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +60,7 @@ public class CheckUpActivity extends AppCompatActivity {
 
         prevBtn = findViewById(R.id.prev_question_btn);
         nextBtn = findViewById(R.id.next_question_btn);
+        containerDetail = findViewById(R.id.detail_pasien_container);
 
         prevBtn.setVisibility(View.GONE);
         prevBtn.setOnClickListener(new View.OnClickListener() {
@@ -90,6 +96,9 @@ public class CheckUpActivity extends AppCompatActivity {
 
                 if (lastAnswer == max) {
                     nextBtn.setVisibility(View.GONE);
+                    containerDetail.setVisibility(View.VISIBLE);
+                } else {
+                    containerDetail.setVisibility(View.GONE);
                 }
 
                 viewQuestion();
@@ -118,7 +127,40 @@ public class CheckUpActivity extends AppCompatActivity {
             }
         });
 
+        Button saveBtn = findViewById(R.id.save_btn);
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveCheckUp();
+            }
+        });
+
         viewQuestion();
+    }
+
+    private void saveCheckUp() {
+        CheckUpDbService service = new CheckUpDbService(this);
+        try {
+            service.simpan(checkUp);
+            simpanDetailCheckUp();
+        } catch (SQLiteException e) {
+            e.printStackTrace();
+            DialogHelper.showDialog(this, "Gagal", "Tidak dapat menyimpan data checkup");
+        }
+
+    }
+
+    private void simpanDetailCheckUp() {
+        DetailCheckUpDbService service = new DetailCheckUpDbService(this);
+        for (DetailCheckUp detailCheckUp : detailCheckUps) {
+            try {
+                service.simpan(detailCheckUp);
+            } catch (SQLiteException e) {
+                e.printStackTrace();
+                DialogHelper.showDialog(this, "Gagal", "Tidak dapat menyimpan detil checkup");
+                break;
+            }
+        }
     }
 
     @Override
