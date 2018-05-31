@@ -80,5 +80,4 @@ public class HistoryCheckUpActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
-
 }
