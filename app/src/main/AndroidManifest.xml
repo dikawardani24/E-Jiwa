@@ -50,5 +50,4 @@
             android:name=".activities.CheckUpActivity"
             android:configChanges="orientation" />
     </application>
-
 </manifest>

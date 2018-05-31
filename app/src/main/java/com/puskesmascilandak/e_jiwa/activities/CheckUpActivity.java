@@ -13,6 +13,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.puskesmascilandak.e_jiwa.R;
+import com.puskesmascilandak.e_jiwa.business.DetermineScore;
 import com.puskesmascilandak.e_jiwa.model.Angket;
 import com.puskesmascilandak.e_jiwa.model.CheckUp;
 import com.puskesmascilandak.e_jiwa.model.DetailCheckUp;
@@ -132,11 +133,18 @@ public class CheckUpActivity extends AppCompatActivity {
         if (lastAnswer == max) {
             nextBtn.setVisibility(View.GONE);
             containerDetail.setVisibility(View.VISIBLE);
+            determineScore();
         } else {
             containerDetail.setVisibility(View.GONE);
         }
 
         viewQuestion();
+    }
+
+    private void determineScore() {
+        DetermineScore determineScore = new DetermineScore(this);
+        int score = determineScore.countTotalYesAnswer(detailCheckUps);
+        resultTextView.setText(String.valueOf(score));
     }
 
     private void prevQuestion() {
