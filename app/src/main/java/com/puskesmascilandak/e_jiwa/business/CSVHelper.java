@@ -27,6 +27,7 @@ public class CSVHelper {
         file = new File(fileName);
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     public void write(List<CheckUp> checkUps) {
         CsvWriter csvWriter = new CsvWriter();
 

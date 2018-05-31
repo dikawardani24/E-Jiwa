@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">E-Jiwa Puskesmas Cilandak</string>
+    <string name="title_activity_maps">Map</string>
 </resources>
