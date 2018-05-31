@@ -12,6 +12,7 @@ import android.widget.ListView;
 
 import com.puskesmascilandak.e_jiwa.R;
 import com.puskesmascilandak.e_jiwa.adapter.CheckUpItemAdapter;
+import com.puskesmascilandak.e_jiwa.business.CSVHelper;
 import com.puskesmascilandak.e_jiwa.model.CheckUp;
 import com.puskesmascilandak.e_jiwa.service.CheckUpDbService;
 
@@ -19,6 +20,7 @@ import java.util.List;
 
 public class HistoryCheckUpActivity extends AppCompatActivity {
     private CheckUpItemAdapter adapter;
+    private List<CheckUp> checkUps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +33,7 @@ public class HistoryCheckUpActivity extends AppCompatActivity {
         }
 
         CheckUpDbService service = new CheckUpDbService(this);
-        List<CheckUp> checkUps = service.getAll();
+        checkUps = service.getAll();
 
         ListView listView = findViewById(R.id.list_history);
         adapter = new CheckUpItemAdapter(this);
@@ -64,7 +66,9 @@ public class HistoryCheckUpActivity extends AppCompatActivity {
     }
 
     private void exportToCsv() {
+        CSVHelper helper = new CSVHelper(this);
 
+        helper.write(checkUps);
     }
 
     private void viewDetailCheckup(int position) {
@@ -76,4 +80,5 @@ public class HistoryCheckUpActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
+
 }
