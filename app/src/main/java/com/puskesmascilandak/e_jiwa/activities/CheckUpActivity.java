@@ -32,7 +32,9 @@ public class CheckUpActivity extends AppCompatActivity {
     private static int lastAnswer = 0;
     private static List<DetailCheckUp> detailCheckUps;
     private CheckUp checkUp;
-    private TextView numberQuestionTextView, questionTextView;
+    private TextView numberQuestionTextView, questionTextView,
+            namaPasienTextView, noTelpTextView, noKtpTextView,
+            alamatTextView, resultTextView;
     private RadioButton yesRb, noRb;
     private Button prevBtn, nextBtn;
     private CardView containerDetail;
@@ -57,51 +59,30 @@ public class CheckUpActivity extends AppCompatActivity {
 
         numberQuestionTextView = findViewById(R.id.number_textview);
         questionTextView = findViewById(R.id.question_textview);
+        namaPasienTextView = findViewById(R.id.nama_txt);
+        noKtpTextView = findViewById(R.id.no_ktp_txt);
+        noTelpTextView = findViewById(R.id.no_telp_txt);
+        alamatTextView = findViewById(R.id.alamat_txt);
+        resultTextView = findViewById(R.id.hasil_check_up_txt);
 
         prevBtn = findViewById(R.id.prev_question_btn);
         nextBtn = findViewById(R.id.next_question_btn);
         containerDetail = findViewById(R.id.detail_pasien_container);
+        containerDetail.setVisibility(View.GONE);
+        viewDetailPasien();
 
         prevBtn.setVisibility(View.GONE);
         prevBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (lastAnswer > 0) {
-                    lastAnswer -= 1;
-
-                    if (nextBtn.getVisibility() == View.GONE) {
-                        nextBtn.setVisibility(View.VISIBLE);
-                    }
-                }
-
-                if (lastAnswer == 0) {
-                    prevBtn.setVisibility(View.GONE);
-                }
-
-                viewQuestion();
+                prevQuestion();
             }
         });
 
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int max = detailCheckUps.size() - 1;
-                if (lastAnswer < max) {
-                    lastAnswer += 1;
-
-                    if (prevBtn.getVisibility() == View.GONE) {
-                        prevBtn.setVisibility(View.VISIBLE);
-                    }
-                }
-
-                if (lastAnswer == max) {
-                    nextBtn.setVisibility(View.GONE);
-                    containerDetail.setVisibility(View.VISIBLE);
-                } else {
-                    containerDetail.setVisibility(View.GONE);
-                }
-
-                viewQuestion();
+                nextQuestion();
             }
         });
 
@@ -136,6 +117,52 @@ public class CheckUpActivity extends AppCompatActivity {
         });
 
         viewQuestion();
+    }
+
+    private void nextQuestion() {
+        int max = detailCheckUps.size() - 1;
+        if (lastAnswer < max) {
+            lastAnswer += 1;
+
+            if (prevBtn.getVisibility() == View.GONE) {
+                prevBtn.setVisibility(View.VISIBLE);
+            }
+        }
+
+        if (lastAnswer == max) {
+            nextBtn.setVisibility(View.GONE);
+            containerDetail.setVisibility(View.VISIBLE);
+        } else {
+            containerDetail.setVisibility(View.GONE);
+        }
+
+        viewQuestion();
+    }
+
+    private void prevQuestion() {
+        if (lastAnswer > 0) {
+            lastAnswer -= 1;
+
+            if (nextBtn.getVisibility() == View.GONE) {
+                nextBtn.setVisibility(View.VISIBLE);
+            }
+        }
+
+        if (lastAnswer == 0) {
+            prevBtn.setVisibility(View.GONE);
+        }
+
+        viewQuestion();
+    }
+
+    private void viewDetailPasien() {
+        Pasien pasien = checkUp.getPasien();
+        if (pasien != null) {
+            namaPasienTextView.setText(pasien.getNama());
+            noTelpTextView.setText(pasien.getNoTelp());
+            noKtpTextView.setText(pasien.getNoKtp());
+            alamatTextView.setText(pasien.getAlamat());
+        }
     }
 
     private void saveCheckUp() {
