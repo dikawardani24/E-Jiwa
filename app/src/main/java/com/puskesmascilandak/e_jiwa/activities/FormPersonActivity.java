@@ -53,6 +53,7 @@ public abstract class FormPersonActivity extends AppCompatActivity
         person.setTglLahir(getValueFrom(inputTglLahir));
         person.setNoTelp(getValueFrom(inputNoTelp));
         person.setNoKtp(getValueFrom(inputNoKtp));
+        person.setAlamat(getValueFrom(inputAlamat));
 
         if (priaRb.isChecked()) person.setGender("Pria");
         else person.setGender("Wanita");
