@@ -1,4 +1,4 @@
-package com.puskesmascilandak.e_jiwa.businessLogic;
+package com.puskesmascilandak.e_jiwa.business;
 
 import android.content.Context;
 

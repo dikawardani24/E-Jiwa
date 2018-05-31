@@ -1,4 +1,4 @@
-package com.puskesmascilandak.e_jiwa.businessLogic;
+package com.puskesmascilandak.e_jiwa.business;
 
 import android.content.Context;
 import android.os.Environment;
@@ -24,7 +24,7 @@ public class CSVHelper {
         file = new File(fileName);
     }
 
-    public void write(List<DetailCheckUp> detailCheckUps) {
+    public void write(List<CheckUp> checkUps) {
         CsvWriter csvWriter = new CsvWriter();
 
         try {
@@ -32,8 +32,7 @@ public class CSVHelper {
 
             csvAppender.appendLine("Nama Pasien", "NIK Pasien", "Alamat", "Tanggal Lahir", "Score", "Keterangan", "Pemeriksa");
 
-            for (DetailCheckUp detailCheckUp : detailCheckUps) {
-                CheckUp checkUp = detailCheckUp.getCheckUp();
+            for (CheckUp checkUp : checkUps) {
                 Pasien pasien = checkUp.getPasien();
                 Petugas petugas = checkUp.getPetugas();
 

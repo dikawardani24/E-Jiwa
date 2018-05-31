@@ -10,7 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.puskesmascilandak.e_jiwa.R;
-import com.puskesmascilandak.e_jiwa.businessLogic.DetermineScore;
+import com.puskesmascilandak.e_jiwa.business.DetermineScore;
 import com.puskesmascilandak.e_jiwa.model.CheckUp;
 import com.puskesmascilandak.e_jiwa.model.DetailCheckUp;
 import com.puskesmascilandak.e_jiwa.model.Pasien;

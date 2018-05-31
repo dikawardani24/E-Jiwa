@@ -137,6 +137,7 @@ public abstract class FormPersonActivity extends AppCompatActivity
         return true;
     }
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     protected boolean validateAllInput() {
         return validateNama() &
                 validateNoKtp() &

@@ -3,7 +3,7 @@
     package="com.puskesmascilandak.e_jiwa">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:icon="@mipmap/ic_launcher"
@@ -11,13 +11,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.MainActivity">
+        <activity android:name=".activities.UtamaActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.MainActivity"/>
         <activity
             android:name=".activities.SplashScreenActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -45,9 +46,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.HistoryCheckUpActivity" />
         </activity>
-
-        <activity android:name=".activities.CheckUpActivity"
-            android:configChanges="orientation"/>
+        <activity
+            android:name=".activities.CheckUpActivity"
+            android:configChanges="orientation" />
     </application>
 
 </manifest>
