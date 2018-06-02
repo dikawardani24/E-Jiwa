@@ -15,18 +15,20 @@ import com.puskesmascilandak.e_jiwa.model.User;
 import com.puskesmascilandak.e_jiwa.service.PetugasDbService;
 import com.puskesmascilandak.e_jiwa.service.UserDbService;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class FormUserActivity extends AppCompatActivity {
     private Petugas petugas;
-    private EditText inputUsername, inputPassword, inputRetypePassword;
+    @BindView(R.id.input_username) EditText inputUsername;
+    @BindView(R.id.input_password) EditText inputPassword;
+    @BindView(R.id.input_retype_password) EditText inputRetypePassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_user);
-
-        inputUsername = findViewById(R.id.input_username);
-        inputPassword = findViewById(R.id.input_password);
-        inputRetypePassword = findViewById(R.id.input_retype_password);
+        ButterKnife.bind(this);
 
         Button cancelBtn = findViewById(R.id.cancel_btn);
         cancelBtn.setOnClickListener(new View.OnClickListener() {

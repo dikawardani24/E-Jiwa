@@ -12,9 +12,11 @@ import java.util.List;
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "ejiwa.db";
     private static final int DATABASE_VERSION = 1;
+    private final Context context;
 
     DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.context = context;
     }
 
     @Override
@@ -104,7 +106,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private List<Angket> collectQuestions() {
         List<Angket> angkets = new ArrayList<>();
 
-        angkets.add(createNewAngket("Apakah Anda sering menderita sakit kepala?"));
+        for (int i=1; i<=29; i++) {
+            String abc = "no_"+String.valueOf(i);
+            int resId = context.getResources().getIdentifier(abc, "string", context.getPackageName());
+            angkets.add(createNewAngket(getQuestion(resId)));
+        }
+        /*angkets.add(createNewAngket("Apakah Anda sering menderita sakit kepala?"));
         angkets.add(createNewAngket("Apakah Anda kehilangan nafsu makan?"));
         angkets.add(createNewAngket("Apakah tidur Anda tidak lelap?"));
         angkets.add(createNewAngket("Apakah Anda mudah menjadi takut?"));
@@ -136,7 +143,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         angkets.add(createNewAngket("Apakah minat Anda terhadap teman dan kegiatan yang biasa Anda lakukan berkurang?"));
         angkets.add(createNewAngket("Apakah Anda merasa sangat terganggu jika berada dalam situasi yang mengingatkan Anda akan bencana atau jika Anda berpikir tentang bencana itu?"));
         angkets.add(createNewAngket("Apakah Anda kesulitan memahami atau mengekspresikan perasaan Anda?"));
-
+*/
         return angkets;
+    }
+
+    private String getQuestion(int resId) {
+        return context.getResources().getString(resId);
     }
 }

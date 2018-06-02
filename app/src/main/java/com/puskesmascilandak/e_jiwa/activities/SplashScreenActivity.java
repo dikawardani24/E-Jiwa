@@ -8,15 +8,18 @@ import android.widget.ProgressBar;
 
 import com.puskesmascilandak.e_jiwa.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class SplashScreenActivity extends AppCompatActivity {
-    private ProgressBar progressBar;
+    @BindView(R.id.progress_bar) ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+        ButterKnife.bind(this);
 
-        progressBar = findViewById(R.id.progress_bar);
         updateProgress();
     }
 

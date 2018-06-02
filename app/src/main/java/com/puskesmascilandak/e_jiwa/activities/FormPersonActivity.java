@@ -15,11 +15,26 @@ import com.puskesmascilandak.e_jiwa.util.DialogHelper;
 
 import java.util.Calendar;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public abstract class FormPersonActivity extends AppCompatActivity
         implements DatePickerDialog.OnDateSetListener {
-    protected EditText inputNamaLengkap, inputTglLahir,
-            inputAlamat, inputNoTelp, inputNoKtp;
-    protected RadioButton priaRb, wanitaRb;
+    @BindView(R.id.input_nama_lengkap)
+    protected EditText inputNamaLengkap;
+    @BindView(R.id.input_tgl_lahir)
+    protected EditText inputTglLahir;
+    @BindView(R.id.input_alamat)
+    protected EditText inputAlamat;
+    @BindView(R.id.input_no_telp)
+    protected EditText inputNoTelp;
+    @BindView(R.id.input_no_ktp)
+    protected EditText inputNoKtp;
+    @BindView(R.id.pria_rb)
+    protected RadioButton priaRb;
+    @BindView(R.id.wanita_rb)
+    protected RadioButton wanitaRb;
+
     private final int layout;
 
     public FormPersonActivity(int layout) {
@@ -30,15 +45,7 @@ public abstract class FormPersonActivity extends AppCompatActivity
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(layout);
-
-        inputNamaLengkap = findViewById(R.id.input_nama_lengkap);
-        inputTglLahir = findViewById(R.id.input_tgl_lahir);
-        inputAlamat = findViewById(R.id.input_alamat);
-        inputNoTelp = findViewById(R.id.input_no_telp);
-        inputNoKtp = findViewById(R.id.input_no_ktp);
-
-        priaRb = findViewById(R.id.pria_rb);
-        wanitaRb = findViewById(R.id.wanita_rb);
+        ButterKnife.bind(this);
 
         inputTglLahir.setOnClickListener(new View.OnClickListener() {
             @Override

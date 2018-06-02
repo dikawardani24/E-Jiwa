@@ -2,9 +2,7 @@ package com.puskesmascilandak.e_jiwa.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,24 +11,22 @@ import android.widget.Toast;
 
 import com.puskesmascilandak.e_jiwa.R;
 import com.puskesmascilandak.e_jiwa.Session;
-import com.puskesmascilandak.e_jiwa.model.Angket;
 import com.puskesmascilandak.e_jiwa.model.User;
-import com.puskesmascilandak.e_jiwa.service.AngketDbService;
 import com.puskesmascilandak.e_jiwa.service.UserDbService;
 import com.puskesmascilandak.e_jiwa.util.DialogHelper;
 
-import java.util.List;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class LoginActivity extends AppCompatActivity {
-    private EditText inputUsername, inputPasword;
+    @BindView(R.id.input_username) EditText inputUsername;
+    @BindView(R.id.input_password) EditText inputPasword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        inputUsername = findViewById(R.id.input_username);
-        inputPasword = findViewById(R.id.input_password);
+        ButterKnife.bind(this);
 
         Button button = findViewById(R.id.login_btn);
         button.setOnClickListener(new View.OnClickListener() {
@@ -47,14 +43,6 @@ public class LoginActivity extends AppCompatActivity {
                 startSignUpActivity();
             }
         });
-
-        AngketDbService service = new AngketDbService(this);
-        List<Angket> angkets = service.getAll();
-
-        for (Angket angket : angkets) {
-            Log.e(String.valueOf(angket.getId()), angket.getQuestion());
-        }
-
     }
 
     private void startSignUpActivity() {
