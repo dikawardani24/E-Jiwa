@@ -1,8 +1,7 @@
-package com.puskesmascilandak.e_jiwa.activities;
+package com.puskesmascilandak.e_jiwa.activities.main.screening.register;
 
 import android.content.Intent;
 import android.database.sqlite.SQLiteException;
-import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.widget.Button;
@@ -10,6 +9,7 @@ import android.widget.Toast;
 
 import com.puskesmascilandak.e_jiwa.R;
 import com.puskesmascilandak.e_jiwa.Session;
+import com.puskesmascilandak.e_jiwa.activities.main.screening.CheckUpActivity;
 import com.puskesmascilandak.e_jiwa.model.Pasien;
 import com.puskesmascilandak.e_jiwa.model.Petugas;
 import com.puskesmascilandak.e_jiwa.model.User;
@@ -22,9 +22,8 @@ public class FormPasienActivity extends FormPersonActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
+    protected void initOnCreate() {
+        super.initOnCreate();
         setTitle("Input Data Pasien");
         initUpNavigation();
 

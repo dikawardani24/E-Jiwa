@@ -27,53 +27,41 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.MainActivity"></activity>
-        <activity
-            android:name=".activities.SplashScreenActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".activities.LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activities.FormPetugasActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.LoginActivity" />
-        </activity>
-        <activity android:name=".activities.FormUserActivity" />
-        <activity android:name=".activities.FormPasienActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity" />
-        </activity>
-        <activity android:name=".activities.HistoryCheckUpActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity" />
-        </activity>
-        <activity android:name=".activities.DetailAnsweredActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.HistoryCheckUpActivity" />
-        </activity>
-        <activity
-            android:name=".activities.CheckUpActivity"
-            android:configChanges="orientation" />
-        <activity android:name=".activities.InformationActivity" />
-        <!--
-             The API key for Google Maps-based APIs is defined as a string resource.
-             (See the file "res/values/google_maps_api.xml").
-             Note that the API key is linked to the encryption key used to sign the APK.
-             You need a different API key for each encryption key, including the release key that is used to
-             sign the APK for publishing.
-             You can define the keys for the debug and release targets in src/debug/ and src/release/. 
-        -->
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+
+        <activity android:name=".activities.main.ScreeningActivity"/>
 
         <activity
-            android:name=".MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
+            android:name=".activities.main.SplashScreenActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.main.screening.LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activities.main.screening.register.FormPetugasActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.main.screening.LoginActivity" />
+        </activity>
+        <activity android:name=".activities.main.screening.register.FormUserActivity" />
+        <activity android:name=".activities.main.screening.register.FormPasienActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.main.ScreeningActivity" />
+        </activity>
+        <activity android:name=".activities.main.screening.HistoryCheckUpActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.main.ScreeningActivity" />
+        </activity>
+        <activity android:name=".activities.main.screening.detail.DetailAnsweredActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.main.screening.HistoryCheckUpActivity" />
+        </activity>
+        <activity
+            android:name=".activities.main.screening.CheckUpActivity"
+            android:configChanges="orientation" />
+        <activity android:name=".activities.main.InformationActivity" />
+
     </application>
 
 </manifest>

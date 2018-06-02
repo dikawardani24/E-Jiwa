@@ -1,4 +1,4 @@
-package com.puskesmascilandak.e_jiwa.activities;
+package com.puskesmascilandak.e_jiwa.activities.main;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,27 +9,24 @@ import android.widget.GridView;
 
 import com.puskesmascilandak.e_jiwa.R;
 import com.puskesmascilandak.e_jiwa.Session;
+import com.puskesmascilandak.e_jiwa.activities.Activity;
+import com.puskesmascilandak.e_jiwa.activities.main.screening.HistoryCheckUpActivity;
+import com.puskesmascilandak.e_jiwa.activities.main.screening.LoginActivity;
+import com.puskesmascilandak.e_jiwa.activities.main.screening.register.FormPasienActivity;
 import com.puskesmascilandak.e_jiwa.adapter.MainMenuAdapter;
-import com.puskesmascilandak.e_jiwa.model.Petugas;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class ScreeningActivity extends Activity {
     private MainMenuAdapter adapter;
 
+    public ScreeningActivity() {
+        super(R.layout.activity_screening);
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        Session session = new Session(this);
-        if (session.getUser() == null) {
-            startSplashScreenActivity();
-            return;
-        }
-
-        setContentView(R.layout.activity_main);
-
+    protected void initOnCreate() {
         adapter = new MainMenuAdapter(this);
         adapter.addAll(createMenus());
         adapter.notifyDataSetChanged();
@@ -104,12 +101,6 @@ public class MainActivity extends AppCompatActivity {
         session.quit();
 
         Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
-    private void startSplashScreenActivity() {
-        Intent intent = new Intent(this, SplashScreenActivity.class);
         startActivity(intent);
         finish();
     }

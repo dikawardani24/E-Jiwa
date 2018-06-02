@@ -1,15 +1,14 @@
-package com.puskesmascilandak.e_jiwa.activities;
+package com.puskesmascilandak.e_jiwa.activities.main.screening.register;
 
 import android.content.Intent;
 import android.database.sqlite.SQLiteException;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.puskesmascilandak.e_jiwa.R;
+import com.puskesmascilandak.e_jiwa.activities.InputActivity;
+import com.puskesmascilandak.e_jiwa.activities.main.screening.LoginActivity;
 import com.puskesmascilandak.e_jiwa.model.Petugas;
 import com.puskesmascilandak.e_jiwa.model.User;
 import com.puskesmascilandak.e_jiwa.service.PetugasDbService;
@@ -18,16 +17,18 @@ import com.puskesmascilandak.e_jiwa.service.UserDbService;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class FormUserActivity extends AppCompatActivity {
+public class FormUserActivity extends InputActivity {
     private Petugas petugas;
     @BindView(R.id.input_username) EditText inputUsername;
     @BindView(R.id.input_password) EditText inputPassword;
     @BindView(R.id.input_retype_password) EditText inputRetypePassword;
 
+    public FormUserActivity() {
+        super(R.layout.activity_form_user);
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_form_user);
+    protected void initOnCreate() {
         ButterKnife.bind(this);
 
         Button cancelBtn = findViewById(R.id.cancel_btn);
@@ -49,13 +50,19 @@ public class FormUserActivity extends AppCompatActivity {
         petugas = (Petugas) getIntent().getSerializableExtra("petugas");
     }
 
+    private boolean isDataPetugasSaved() {
+        try {
+            PetugasDbService service = new PetugasDbService(this);
+            service.simpan(petugas);
+            return true;
+        } catch (SQLiteException e) {
+            showLongTimeToast("Gagal Menyimpan Data Petugas");
+            return false;
+        }
+    }
+
     private void simpanUser() {
         if (!validateAllInput()) return;
-
-        if (petugas == null) {
-            showToast("Tidak Ada Data Petugas");
-            return;
-        }
 
         User user = new User();
         initData(user);
@@ -68,7 +75,7 @@ public class FormUserActivity extends AppCompatActivity {
         } catch (SQLiteException e) {
             deletePetugas();
             e.printStackTrace();
-            showToast("Tidak Dapat Menyimpan Data User");
+            showLongTimeToast("Tidak Dapat Menyimpan Data User");
         }
     }
 
@@ -90,11 +97,6 @@ public class FormUserActivity extends AppCompatActivity {
     private void startLoginActivity() {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
-    }
-
-    private void showToast(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG)
-                .show();
     }
 
     private boolean validateUsername() {
@@ -150,13 +152,17 @@ public class FormUserActivity extends AppCompatActivity {
         return true;
     }
 
-    private boolean validateAllInput() {
-        return validateUsername() &
+    @Override
+    protected boolean validateAllInput() {
+        boolean inputValid = validateUsername() &
                 validatePassword() &
                 validateRetypePassword();
-    }
 
-    private String getValueFrom(EditText editText) {
-        return editText.getText().toString();
+        if (petugas == null) {
+            showLongTimeToast("Tidak Ada Data Petugas");
+            return false;
+        }
+
+        return inputValid && isDataPetugasSaved();
     }
 }

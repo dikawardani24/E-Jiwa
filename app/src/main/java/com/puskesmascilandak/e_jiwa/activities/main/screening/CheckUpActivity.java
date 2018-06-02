@@ -1,9 +1,7 @@
-package com.puskesmascilandak.e_jiwa.activities;
+package com.puskesmascilandak.e_jiwa.activities.main.screening;
 
 import android.content.res.Configuration;
 import android.database.sqlite.SQLiteException;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +10,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.puskesmascilandak.e_jiwa.R;
+import com.puskesmascilandak.e_jiwa.activities.Activity;
 import com.puskesmascilandak.e_jiwa.business.DetermineScore;
 import com.puskesmascilandak.e_jiwa.model.Angket;
 import com.puskesmascilandak.e_jiwa.model.CheckUp;
@@ -21,17 +20,17 @@ import com.puskesmascilandak.e_jiwa.model.Petugas;
 import com.puskesmascilandak.e_jiwa.service.AngketDbService;
 import com.puskesmascilandak.e_jiwa.service.CheckUpDbService;
 import com.puskesmascilandak.e_jiwa.service.DetailCheckUpDbService;
+import com.puskesmascilandak.e_jiwa.util.CalendarHelper;
 import com.puskesmascilandak.e_jiwa.util.DialogHelper;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CheckUpActivity extends AppCompatActivity {
+public class CheckUpActivity extends Activity {
     @BindView(R.id.number_textview) TextView numberQuestionTextView;
     @BindView(R.id.question_textview) TextView questionTextView;
     @BindView(R.id.nama_txt) TextView namaPasienTextView;
@@ -49,10 +48,12 @@ public class CheckUpActivity extends AppCompatActivity {
     private static List<DetailCheckUp> detailCheckUps;
     private CheckUp checkUp;
 
+    public CheckUpActivity() {
+        super(R.layout.activity_check_up);
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_check_up);
+    protected void initOnCreate() {
         ButterKnife.bind(this);
 
         initCheckUp();
@@ -91,6 +92,7 @@ public class CheckUpActivity extends AppCompatActivity {
             }
         });
 
+        containerDetail.setVisibility(View.GONE);
         Button saveBtn = findViewById(R.id.save_btn);
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -243,17 +245,7 @@ public class CheckUpActivity extends AppCompatActivity {
             return;
         }
 
-        checkUp.setTglCheckUp(getDateInString());
+        checkUp.setTglCheckUp(CalendarHelper.getDefaultDateInString());
 
-    }
-
-    private String getDateInString() {
-        Calendar calendar = Calendar.getInstance();
-
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        int month = calendar.get(Calendar.MONTH);
-        int year = calendar.get(Calendar.YEAR);
-
-        return day + "/" + (month + 1) + "/" + year;
     }
 }

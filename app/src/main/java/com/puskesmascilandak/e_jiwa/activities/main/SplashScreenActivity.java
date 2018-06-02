@@ -1,25 +1,26 @@
-package com.puskesmascilandak.e_jiwa.activities;
+package com.puskesmascilandak.e_jiwa.activities.main;
 
 import android.content.Intent;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.widget.ProgressBar;
 
 import com.puskesmascilandak.e_jiwa.R;
+import com.puskesmascilandak.e_jiwa.activities.Activity;
+import com.puskesmascilandak.e_jiwa.activities.main.screening.LoginActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SplashScreenActivity extends AppCompatActivity {
+public class SplashScreenActivity extends Activity {
     @BindView(R.id.progress_bar) ProgressBar progressBar;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash_screen);
-        ButterKnife.bind(this);
+    public SplashScreenActivity() {
+        super(R.layout.activity_splash_screen);
+    }
 
+    @Override
+    protected void initOnCreate() {
+        ButterKnife.bind(this);
         updateProgress();
     }
 

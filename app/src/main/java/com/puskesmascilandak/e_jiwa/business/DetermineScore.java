@@ -10,7 +10,6 @@ import java.util.List;
 
 public class DetermineScore {
     private Context context;
-    private int color;
     private final List<Integer> forbiddenYesAnswered = new ArrayList<>();
 
     public DetermineScore(Context context) {
@@ -45,7 +44,7 @@ public class DetermineScore {
             return context.getResources().getColor(R.color.red);
         }
 
-        if (totalAnsweredYes >= 5 && totalAnsweredYes <= 7) {
+        if (totalAnsweredYes >= 5) {
             return context.getResources().getColor(R.color.yellow);
         }
 

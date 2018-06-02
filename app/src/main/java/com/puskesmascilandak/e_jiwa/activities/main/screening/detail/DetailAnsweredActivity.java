@@ -1,11 +1,10 @@
-package com.puskesmascilandak.e_jiwa.activities;
+package com.puskesmascilandak.e_jiwa.activities.main.screening.detail;
 
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.widget.ListView;
 
 import com.puskesmascilandak.e_jiwa.R;
+import com.puskesmascilandak.e_jiwa.activities.Activity;
 import com.puskesmascilandak.e_jiwa.adapter.AnsweredItemAdapter;
 import com.puskesmascilandak.e_jiwa.model.CheckUp;
 import com.puskesmascilandak.e_jiwa.model.DetailCheckUp;
@@ -14,13 +13,14 @@ import com.puskesmascilandak.e_jiwa.service.DetailCheckUpDbService;
 import java.io.Serializable;
 import java.util.List;
 
-public class DetailAnsweredActivity extends AppCompatActivity {
+public class DetailAnsweredActivity extends Activity {
+
+    public DetailAnsweredActivity() {
+        super(R.layout.activity_detail_answered);
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_answered);
-
+    protected void initOnCreate() {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);

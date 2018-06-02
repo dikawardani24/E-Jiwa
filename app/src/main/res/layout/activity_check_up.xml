@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:background="@color/colorPrimary"
-    tools:context=".activities.CheckUpActivity">
+    tools:context=".activities.main.screening.CheckUpActivity">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"

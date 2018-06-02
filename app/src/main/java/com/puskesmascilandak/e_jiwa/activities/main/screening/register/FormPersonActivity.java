@@ -1,24 +1,20 @@
-package com.puskesmascilandak.e_jiwa.activities;
+package com.puskesmascilandak.e_jiwa.activities.main.screening.register;
 
 import android.app.DatePickerDialog;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
 import com.puskesmascilandak.e_jiwa.R;
+import com.puskesmascilandak.e_jiwa.activities.InputActivity;
 import com.puskesmascilandak.e_jiwa.model.Person;
 import com.puskesmascilandak.e_jiwa.util.DialogHelper;
-
-import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public abstract class FormPersonActivity extends AppCompatActivity
+public abstract class FormPersonActivity extends InputActivity
         implements DatePickerDialog.OnDateSetListener {
     @BindView(R.id.input_nama_lengkap)
     protected EditText inputNamaLengkap;
@@ -35,18 +31,13 @@ public abstract class FormPersonActivity extends AppCompatActivity
     @BindView(R.id.wanita_rb)
     protected RadioButton wanitaRb;
 
-    private final int layout;
-
     public FormPersonActivity(int layout) {
-        this.layout = layout;
+        super(layout);
     }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(layout);
+    protected void initOnCreate() {
         ButterKnife.bind(this);
-
         inputTglLahir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,10 +55,6 @@ public abstract class FormPersonActivity extends AppCompatActivity
 
         if (priaRb.isChecked()) person.setGender("Pria");
         else person.setGender("Wanita");
-    }
-
-    protected String getValueFrom(EditText editText) {
-        return editText.getText().toString();
     }
 
     protected boolean isContainSpesialCharacter(String toCheck) {
@@ -144,7 +131,7 @@ public abstract class FormPersonActivity extends AppCompatActivity
         return true;
     }
 
-    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+    @Override
     protected boolean validateAllInput() {
         return validateNama() &
                 validateNoKtp() &
@@ -162,18 +149,7 @@ public abstract class FormPersonActivity extends AppCompatActivity
     }
 
     protected void showDatePickerDialog() {
-        Calendar calendar = Calendar.getInstance();
-
-        DatePickerDialog dialog = new DatePickerDialog(this, this,
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH));
-
-        dialog.show();
-    }
-
-    protected void showDialog(String title, String message) {
-        DialogHelper.showDialog(this, title, message);
+        DialogHelper.showDatePickerDialog(this, this, null);
     }
 
     @Override
