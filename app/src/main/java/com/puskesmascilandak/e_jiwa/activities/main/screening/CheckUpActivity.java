@@ -37,9 +37,12 @@ public class CheckUpActivity extends Activity {
     @BindView(R.id.no_telp_txt) TextView noTelpTextView;
     @BindView(R.id.no_ktp_txt) TextView noKtpTextView;
     @BindView(R.id.alamat_txt) TextView alamatTextView;
-    @BindView(R.id.hasil_check_up_txt) TextView resultTextView;
+    @BindView(R.id.score_check_up_txt) TextView resultTextView;
+    @BindView(R.id.keterangan_check_up_txt) TextView keteranganTextView;
+
     @BindView(R.id.yes_rb) RadioButton yesRb;
     @BindView(R.id.no_rb) RadioButton noRb;
+
     @BindView(R.id.prev_question_btn) Button prevBtn;
     @BindView(R.id.next_question_btn) Button nextBtn;
     @BindView(R.id.detail_pasien_container) CardView containerDetail;
@@ -131,18 +134,13 @@ public class CheckUpActivity extends Activity {
         if (lastAnswer == max) {
             nextBtn.setVisibility(View.GONE);
             containerDetail.setVisibility(View.VISIBLE);
-            determineScore();
+
         } else {
             containerDetail.setVisibility(View.GONE);
         }
 
         viewQuestion();
-    }
-
-    private void determineScore() {
-        DetermineScore determineScore = new DetermineScore(this);
-        int score = determineScore.countTotalYesAnswer(detailCheckUps);
-        resultTextView.setText(String.valueOf(score));
+        determineScore();
     }
 
     private void prevQuestion() {
@@ -159,6 +157,18 @@ public class CheckUpActivity extends Activity {
         }
 
         viewQuestion();
+        determineScore();
+    }
+
+    private void determineScore() {
+        DetermineScore determineScore = new DetermineScore(this);
+        int score = determineScore.countTotalYesAnswer(detailCheckUps);
+        String keterangan = determineScore.generateKeterangan(detailCheckUps);
+
+        checkUp.setScore(score);
+        checkUp.setKeterangan(keterangan);
+        resultTextView.setText(String.valueOf(score));
+        keteranganTextView.setText(keterangan);
     }
 
     private void viewDetailPasien() {
@@ -176,6 +186,7 @@ public class CheckUpActivity extends Activity {
         try {
             service.simpan(checkUp);
             simpanDetailCheckUp();
+            finish();
         } catch (SQLiteException e) {
             e.printStackTrace();
             DialogHelper.showDialog(this, "Gagal", "Tidak dapat menyimpan data checkup");
@@ -246,6 +257,5 @@ public class CheckUpActivity extends Activity {
         }
 
         checkUp.setTglCheckUp(CalendarHelper.getDefaultDateInString());
-
     }
 }

@@ -1,8 +1,6 @@
 package com.puskesmascilandak.e_jiwa.activities.main.screening;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,23 +8,25 @@ import android.widget.TextView;
 
 import com.puskesmascilandak.e_jiwa.R;
 import com.puskesmascilandak.e_jiwa.Session;
+import com.puskesmascilandak.e_jiwa.activities.InputActivity;
 import com.puskesmascilandak.e_jiwa.activities.main.ScreeningActivity;
 import com.puskesmascilandak.e_jiwa.activities.main.screening.register.FormPetugasActivity;
 import com.puskesmascilandak.e_jiwa.model.User;
 import com.puskesmascilandak.e_jiwa.service.UserDbService;
-import com.puskesmascilandak.e_jiwa.util.DialogHelper;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends InputActivity {
     @BindView(R.id.input_username) EditText inputUsername;
     @BindView(R.id.input_password) EditText inputPasword;
 
+    public LoginActivity() {
+        super(R.layout.activity_login);
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+    protected void initOnCreate() {
         ButterKnife.bind(this);
 
         Button button = findViewById(R.id.login_btn);
@@ -49,10 +49,6 @@ public class LoginActivity extends AppCompatActivity {
     private void startSignUpActivity() {
         Intent intent = new Intent(this, FormPetugasActivity.class);
         startActivity(intent);
-    }
-
-    private void showDialog(String title, String message) {
-        DialogHelper.showDialog(this, title, message);
     }
 
     private void login() {
@@ -117,11 +113,8 @@ public class LoginActivity extends AppCompatActivity {
         return true;
     }
 
-    private boolean validateAllInput() {
+    @Override
+    protected boolean validateAllInput() {
         return validateUsername() && validatePassword();
-    }
-
-    private String getValueFrom(EditText editText) {
-        return editText.getText().toString();
     }
 }

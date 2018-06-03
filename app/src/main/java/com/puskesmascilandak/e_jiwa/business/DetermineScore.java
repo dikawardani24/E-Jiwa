@@ -1,6 +1,7 @@
 package com.puskesmascilandak.e_jiwa.business;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.puskesmascilandak.e_jiwa.R;
 import com.puskesmascilandak.e_jiwa.model.DetailCheckUp;
@@ -61,5 +62,44 @@ public class DetermineScore {
         }
 
         return total;
+    }
+
+    public String generateKeterangan(List<DetailCheckUp> detailCheckUps) {
+        List<String> descriptions = new ArrayList<>();
+
+        int totalYesAnswered = countTotalYesAnswer(detailCheckUps);
+        if (totalYesAnswered > 8) descriptions.add("F.32");
+
+        if (isQuestion21BeingYes(detailCheckUps)) descriptions.add("F.10");
+
+        if (isQuestionBetween22Until24BeingYes(detailCheckUps)) descriptions.add("F.20");
+
+        if (isQuestionBetween25Until29BeingYes(detailCheckUps)) descriptions.add("f.43");
+
+        return TextUtils.join(", ", descriptions);
+    }
+
+    private boolean isQuestion21BeingYes(List<DetailCheckUp> detailCheckUps) {
+        return detailCheckUps.get(20).getAnswer().equals("Ya");
+    }
+
+    private boolean isQuestionBetween22Until24BeingYes(List<DetailCheckUp> detailCheckUps) {
+        for (int i=21; i<25; i++) {
+            if (detailCheckUps.get(i).getAnswer().equals("Ya")) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean isQuestionBetween25Until29BeingYes(List<DetailCheckUp> detailCheckUps) {
+        for (int i=24; i<29; i++) {
+            if (detailCheckUps.get(i).getAnswer().equals("Ya")) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

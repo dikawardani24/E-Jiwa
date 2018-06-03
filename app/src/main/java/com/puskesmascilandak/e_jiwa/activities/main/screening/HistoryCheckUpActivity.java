@@ -2,8 +2,6 @@ package com.puskesmascilandak.e_jiwa.activities.main.screening;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.puskesmascilandak.e_jiwa.R;
+import com.puskesmascilandak.e_jiwa.activities.Activity;
 import com.puskesmascilandak.e_jiwa.activities.main.screening.detail.DetailAnsweredActivity;
 import com.puskesmascilandak.e_jiwa.adapter.CheckUpItemAdapter;
 import com.puskesmascilandak.e_jiwa.model.CheckUp;
@@ -18,14 +17,15 @@ import com.puskesmascilandak.e_jiwa.service.CheckUpDbService;
 
 import java.util.List;
 
-public class HistoryCheckUpActivity extends AppCompatActivity {
+public class HistoryCheckUpActivity extends Activity {
     private CheckUpItemAdapter adapter;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_history_check_up);
+    public HistoryCheckUpActivity() {
+        super(R.layout.activity_history_check_up);
+    }
 
+    @Override
+    protected void initOnCreate() {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
