@@ -27,6 +27,7 @@ public class LoginActivity extends InputActivity {
 
     @Override
     protected void initOnCreate() {
+        setTitle("Login");
         ButterKnife.bind(this);
 
         Button button = findViewById(R.id.login_btn);

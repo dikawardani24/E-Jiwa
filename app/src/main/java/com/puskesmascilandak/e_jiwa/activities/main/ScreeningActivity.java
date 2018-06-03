@@ -27,6 +27,7 @@ public class ScreeningActivity extends Activity {
 
     @Override
     protected void initOnCreate() {
+        setTitle("Screening E-Jiwa");
         adapter = new MainMenuAdapter(this);
         adapter.addAll(createMenus());
         adapter.notifyDataSetChanged();

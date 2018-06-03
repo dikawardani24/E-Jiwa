@@ -156,6 +156,7 @@ public class CheckUpActivity extends Activity {
             prevBtn.setVisibility(View.GONE);
         }
 
+        containerDetail.setVisibility(View.GONE);
         viewQuestion();
         determineScore();
     }
