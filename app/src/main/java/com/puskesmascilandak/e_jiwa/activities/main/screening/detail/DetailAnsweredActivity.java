@@ -1,5 +1,7 @@
 package com.puskesmascilandak.e_jiwa.activities.main.screening.detail;
 
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.support.v7.app.ActionBar;
 import android.widget.ListView;
 
@@ -9,6 +11,7 @@ import com.puskesmascilandak.e_jiwa.adapter.AnsweredItemAdapter;
 import com.puskesmascilandak.e_jiwa.model.CheckUp;
 import com.puskesmascilandak.e_jiwa.model.DetailCheckUp;
 import com.puskesmascilandak.e_jiwa.service.DetailCheckUpDbService;
+import com.puskesmascilandak.e_jiwa.util.PopupUtil;
 
 import java.io.Serializable;
 import java.util.List;
@@ -28,19 +31,26 @@ public class DetailAnsweredActivity extends Activity {
 
         setTitle("Detil Jawaban Pertanyaan");
 
-        Serializable serializable = getIntent().getSerializableExtra("check_up");
+        final AnsweredItemAdapter adapter = new AnsweredItemAdapter(DetailAnsweredActivity.this);
+        ListView listView = findViewById(R.id.list_answered);
+        listView.setAdapter(adapter);
 
-        if (serializable != null) {
-            CheckUp checkUp = (CheckUp) serializable;
-            DetailCheckUpDbService service = new DetailCheckUpDbService(this);
-            List<DetailCheckUp> detailCheckUps = service.findBy(checkUp);
+        PopupUtil.showLoading(this, "", "Memuat...");
+        Handler handler = new Handler();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                Serializable serializable = getIntent().getSerializableExtra("check_up");
 
-            AnsweredItemAdapter adapter = new AnsweredItemAdapter(this);
-            adapter.addAll(detailCheckUps);
-            adapter.notifyDataSetChanged();
-
-            ListView listView = findViewById(R.id.list_answered);
-            listView.setAdapter(adapter);
-        }
+                if (serializable != null) {
+                    CheckUp checkUp = (CheckUp) serializable;
+                    DetailCheckUpDbService service = new DetailCheckUpDbService(DetailAnsweredActivity.this);
+                    List<DetailCheckUp> detailCheckUps = service.findBy(checkUp);
+                    adapter.addAll(detailCheckUps);
+                    adapter.notifyDataSetChanged();
+                    PopupUtil.dismissDialog();
+                }
+            }
+        });
     }
 }

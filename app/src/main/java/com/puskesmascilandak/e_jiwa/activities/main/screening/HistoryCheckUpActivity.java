@@ -1,6 +1,7 @@
 package com.puskesmascilandak.e_jiwa.activities.main.screening;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,6 +15,7 @@ import com.puskesmascilandak.e_jiwa.activities.main.screening.detail.DetailAnswe
 import com.puskesmascilandak.e_jiwa.adapter.CheckUpItemAdapter;
 import com.puskesmascilandak.e_jiwa.model.CheckUp;
 import com.puskesmascilandak.e_jiwa.service.CheckUpDbService;
+import com.puskesmascilandak.e_jiwa.util.PopupUtil;
 
 import java.util.List;
 
@@ -24,6 +26,13 @@ public class HistoryCheckUpActivity extends Activity {
         super(R.layout.activity_history_check_up);
     }
 
+    private void loadDataCheckUp() {
+        CheckUpDbService service = new CheckUpDbService(this);
+        List<CheckUp> checkUps = service.getAll();
+        adapter.addAll(checkUps);
+        adapter.notifyDataSetChanged();
+    }
+
     @Override
     protected void initOnCreate() {
         ActionBar actionBar = getSupportActionBar();
@@ -31,18 +40,23 @@ public class HistoryCheckUpActivity extends Activity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        CheckUpDbService service = new CheckUpDbService(this);
-        List<CheckUp> checkUps = service.getAll();
-
         ListView listView = findViewById(R.id.list_history);
         adapter = new CheckUpItemAdapter(this);
-        adapter.addAll(checkUps);
-        adapter.notifyDataSetChanged();
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 viewDetailCheckup(position);
+            }
+        });
+
+        PopupUtil.showLoading(this, "Memuat Data Check Up", "Mohon Tunggu...");
+        Handler handler = new Handler();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                loadDataCheckUp();
+                PopupUtil.dismissDialog();
             }
         });
     }
