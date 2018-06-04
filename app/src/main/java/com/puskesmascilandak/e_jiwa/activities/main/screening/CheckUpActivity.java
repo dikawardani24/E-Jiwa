@@ -59,6 +59,7 @@ public class CheckUpActivity extends Activity {
     protected void initOnCreate() {
         ButterKnife.bind(this);
 
+        lastAnswer = 0;
         initCheckUp();
         initDetailCheckUp();
         viewDetailPasien();
